@@ -1,0 +1,396 @@
+* {
+    --header-color: #581EFF;
+    --width-of-input: 200px;
+    --border-height: 1px;
+    --border-before-color: rgba(221, 221, 221, 0.39);
+    --border-after-color: #5891ff;
+    --input-hovered-color: #4985e01f;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+html {
+    background-color: #581eff;
+    background-image: linear-gradient(180deg, #581eff 0%, #ffffff 43%, #ffffff 78%);
+}
+
+body {
+    height: 100vh;
+}
+
+.main-container {
+    height: 100%;
+    display: flex;
+    border-radius: 20px;
+}
+
+.sidebar {
+    flex-direction: column;
+    display: flex;
+    margin: 8px;
+    position: relative;
+    width: 250px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    border-top-right-radius: 20px;
+    color: white;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+.sidebar>* {
+    padding: 30px 20px 30px 20px;
+}
+
+main {
+    position: relative;
+    flex: 1;
+    margin: 8px;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
+}
+
+.sidebar-items {
+    list-style: none;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-items::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    background-color: rgba(128, 128, 128, 0.501);
+    bottom: 0;
+    width: 80%;
+}
+
+.notification {
+    color: white;
+    border-radius: 50%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.274);
+    transition: 100ms;
+}
+
+.notification>svg {
+    transition: 100ms;
+}
+
+.notification:hover>svg {
+    transform: scale(1.1);
+
+}
+
+.notification:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.43);
+}
+
+h4 {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+span {
+    color: gray;
+    display: flex;
+    align-items: center;
+}
+
+.counter {
+    transition: 100ms;
+    font-size: .8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -5px;
+    border: 1px solid azure;
+    background-color: white;
+    right: -5px;
+    font-weight: 900;
+    color: var(--header-color);
+    padding: 0px 5px;
+    border-radius: 4px;
+}
+
+.projects {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.projects>li {
+    display: flex;
+    justify-content: space-between;
+}
+
+.projects svg:hover {
+    cursor: pointer;
+}
+
+.header-left-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.add-project {
+    justify-self: flex-end;
+    padding: 10px;
+    color: gray;
+    width: 220px;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: 400;
+    align-self: center;
+    margin-bottom: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1), 8px 0px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s, font-weight 100ms;
+    user-select: none;
+}
+
+.add-project:hover {
+    background-color: var(--header-color);
+    box-shadow: 0px 15px 20px #5022d85f;
+    color: #fff;
+    transform: translateY(-7px);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.add-project:active {
+    transform: translateY(-1px);
+}
+
+#projectModal {
+    display: none;
+}
+
+.modal {
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.263);
+    z-index: 10;
+}
+
+input:checked~.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.closeModal:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+    box-shadow: 0px 0px 30px #ce3d3d;
+    background-color: #ce3d3d;
+    color: white;
+}
+
+.closeModal {
+    transition: 100ms ease 0s;
+    border: 2px solid transparent;
+    box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.311);
+    border-radius: 5px;
+    top: 10px;
+    right: 10px;
+    position: absolute;
+    display: flex;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.projectsForm {
+    background-color: white;
+}
+
+.input-decor:focus~.input-border, textarea:focus~.input-border {
+    width: 100%;
+}
+
+.input-decor:focus, textarea:focus{
+    outline: none;
+}
+
+.input-decor:hover, textarea:hover {
+    background: var(--input-hovered-color);
+}
+
+.input-decor:valid~.input-border {
+    width: 100%;
+}
+input[type='datetime-local']:hover{
+    cursor: pointer;
+}
+.input-decor, textarea{
+    font-size: 0.9rem;
+    background-color: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+    border-bottom: var(--border-height) solid var(--border-before-color);
+}
+
+.input-border {
+    position: absolute;
+    background: var(--header-color);
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    transition: 0.3s ease 0s;
+}
+
+.projectsForm ul, .tasks-main-container ul {
+    font-size: .8rem;
+    color: gray;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.projectsForm li, .tasks-main-container li {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: fit-content;
+}
+
+.projectsForm li:nth-child(2) {
+    align-items: center;
+}
+
+.select-menu:hover {
+    cursor: pointer;
+}
+
+.select-menu {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 200px;
+    outline: none;
+    color: rgb(54, 54, 54);
+    text-align: center;
+    border: 1px solid rgba(128, 128, 128, 0.328);
+    padding: 5px;
+    background-color: white;
+}
+
+
+/* From uiverse.io by @adamgiebl */
+.cssbuttons-io-button:hover {
+    cursor: pointer;
+}
+.cssbuttons-io-button {
+    background: #A370F0;
+    color: white;
+    font-family: inherit;
+    padding: 0.35em;
+    padding-left: 1.2em;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 0.9em;
+    border: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    box-shadow: inset 0 0 1.6em -0.6em var(--header-color);
+    overflow: hidden;
+    position: fixed;
+    bottom: 14px;
+    right: 14px;
+    height: 2.8em;
+    padding-right: 3.3em;
+}
+
+.cssbuttons-io-button .icon {
+    background: white;
+    margin-left: 1em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.2em;
+    width: 2.2em;
+    border-radius: 0.7em;
+    box-shadow: 0.1em 0.1em 0.6em 0.2em var(--header-color);
+    right: 0.3em;
+    transition: all 0.3s;
+}
+
+.cssbuttons-io-button:hover .icon {
+    width: calc(100% - 0.6em);
+
+}
+
+.cssbuttons-io-button .icon svg {
+    width: 1.1em;
+    transition: transform 0.3s;
+    color: #7b52b9;
+}
+
+.cssbuttons-io-button:hover .icon svg {
+    transform: translateX(0.1em);
+}
+
+.cssbuttons-io-button:active .icon {
+    transform: scale(0.95);
+}
+
+.tasks-main-container ul{
+    gap: 30px;
+}
+
+.todos-container {
+    padding: 20px;
+    
+}
+.todos-container li {
+    background-color: rgb(221, 221, 221);
+    padding: 10px;
+    border-radius: 20px;
+}
