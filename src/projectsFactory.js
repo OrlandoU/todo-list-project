@@ -5,12 +5,14 @@ export default (id,name, category) => {
     let _date = new Date()
     let _category = category;
 
-    const read = ()=>{{_id,_name, _date, _category}}
+    const read = ()=>{
+        return {_id,_name, _date, _category}
+    }
 
     const update = (newName, newCategory)=>{
         _name = newName
         _category = newCategory
     }
     
-    return {read, update, addTodo}
+    return {read, update}
 }

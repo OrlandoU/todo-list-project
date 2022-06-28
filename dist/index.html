@@ -27,18 +27,19 @@
                 <ul>
                     <li>
                         <label for="project-name">Project Name</label>
-                        <input type="text" id="project-name" name="projectName" required="" class="input-decor">
-                        <span class="input-border" ></span>
+                        <input type="text" id="project-name" name="projectName" required="" class="input-decor"
+                            autocomplete="off">
+                        <span class="input-border"></span>
                     </li>
                     <li>
                         <select class="select-menu" name="category" id="categorySelector">
-                            <option value="home" default>Home</option>
-                            <option value="work">Work</option>
-                            <option value="personal">Personal</option>
+                            <option value="Home">Home</option>
+                            <option value="Work" selected>Work</option>
+                            <option value="Personal">Personal</option>
                         </select>
                     </li>
                     <li>
-                            <button>Add Project</button>
+                        <button>Add Projects</button>
                     </li>
                 </ul>
             </div>
@@ -66,41 +67,70 @@
                     </span>
                     <h4>Important</h4>
                 </li>
-                <li>
-                    <span>
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1" />
-                        </svg>
-                    </span>
-                    <h4>Calendar</h4>
-                </li>
+
             </ul>
             <ul class="projects">
                 <h2>Projects</h2>
                 <li>
-                    Work
-                    <span>
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                        </svg>
-                    </span>
+                    <input type="radio" class="radio-buttons" id="Work-input" value="Work" name="selected" style='display:none'>
+                    <label for="Work-input">
+                        <div class="title-project">
+                            Work
+                            <span>
+                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                                </svg>
+                            </span>
+                        </div>
+                    </label>
+                    
+
+                    <div class="projects-container">
+                        <ul class="projects-list-Work cleanup">
+
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    Personal
-                    <span>
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                        </svg>
-                    </span>
+                    <input type="radio" class="radio-buttons" id="Personal-input" value="Personal" name="selected" style='display:none'>
+                    <label for="Personal-input">
+                        <div class="title-project">
+                            Personal
+                            <span>
+                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                                </svg>
+                            </span>
+                        </div>
+                    </label>
+
+                    <div class="projects-container">
+                        <ul class="projects-list-Personal cleanup">
+
+                        </ul>
+                    </div>
                 </li>
                 <li>
-                    Home
-                    <span>
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                        </svg>
-                    </span>
+                    <input type="radio" class="radio-buttons" id="Home-input" value="Home" name="selected" style='display:none'>
+                    <label for="Home-input">
+                        <div class="title-project">
+                            Home
+                            <span>
+                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                                </svg>
+                            </span>
+                        </div>
+                    </label>
+
+                    <div class="projects-container">
+                        <ul class="projects-list-Home cleanup">
+                    
+                        </ul>
+                    </div>
                 </li>
             </ul>
 
@@ -124,11 +154,12 @@
                 </section>
             </header>
             <main>
+                
                 <div class="main-header">
 
                 </div>
                 <div>
-                    <ul class="todos-container" >
+                    <ul class="todos-container clean">
 
                     </ul>
                 </div>
@@ -146,10 +177,10 @@
                         <ul>
                             <li>
                                 <label for="title-form">To-do</label>
-                                <input id="title-form" type="text" name ='title' required class="input-decor">
-                                <span class="input-border" ></span>
+                                <input id="title-form" type="text" name='title' required class="input-decor">
+                                <span class="input-border"></span>
                             </li>
-                            
+
                             <li>
                                 <label for="priority-form">Priority</label>
                                 <select name="priority" class="select-menu" id="priority-form">
@@ -161,13 +192,13 @@
 
                             <li>
                                 <label for="date-form">Deadline</label>
-                                <input id="date-form" type="datetime-local" name ='dueDate' required class="input-decor">
-                                <span class="input-border" ></span>
+                                <input id="date-form" type="datetime-local" name='dueDate' required class="input-decor">
+                                <span class="input-border"></span>
                             </li>
                             <li>
                                 <label for="description-form">Notes</label>
                                 <textarea name="description" id="description-form" cols="22" rows="10"></textarea>
-                                <span class="input-border" ></span>
+                                <span class="input-border"></span>
                             </li>
                             <input type="submit" id="todos-submit" style="display:none">
                         </ul>

@@ -7,8 +7,8 @@ export default (function(){
     let _projectId = 0;
     let _todoId = 0;
 
-    const projectsDb = {};
-    const todosDb = {};
+    const projectsDb = [];
+    const todosDb = [];
 
     const _getProjectId = () => {
         return _projectId
@@ -21,8 +21,8 @@ export default (function(){
     const _updateTodoId = () => {_todoId++}
 
 
-    const createProject = (projectName, category) => {
-        projectsDb[_getProjectId()] = projectsF(_getProjectId(), projectName, category);
+    const createProject = (projectName, category, todosDb) => {
+        projectsDb[_getProjectId()] = projectsF(_getProjectId(), projectName, category, todosDb);
         _updateProjectId();
     }
     const createTodo = (projectId, title, description, dueDate, priority) => {
@@ -42,7 +42,11 @@ export default (function(){
     const read = () => {
         return {projectsDb, todosDb}
     }
-    
+    const counter = (id) => {
+        return todosDb.filter(item=>{
+            return item.read()._projectId == id
+        }).length
+    }
 
     const updateProject = () => {
        
@@ -53,7 +57,7 @@ export default (function(){
 
     
 
-    return{createProject, createTodo, removeProject, removeTodo, read, updateProject, updateTodo}
+    return{createProject, createTodo, removeProject, removeTodo, read, updateProject, updateTodo, counter}
 })()
 
 

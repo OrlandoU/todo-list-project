@@ -31,7 +31,7 @@ body {
     margin: 8px;
     position: relative;
     width: 250px;
-    background-color: white;
+    background-color: rgb(249, 249, 249);
     border-radius: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
 }
@@ -44,7 +44,7 @@ body {
 
 header {
     border-top-right-radius: 20px;
-    color: white;
+    color: rgb(249, 249, 249);
     height: 100px;
     display: flex;
     align-items: center;
@@ -56,13 +56,16 @@ header {
 .sidebar>* {
     padding: 30px 20px 30px 20px;
 }
-
+.show {
+    display: block;
+}
 main {
+    display: none;
     position: relative;
     flex: 1;
     margin: 8px;
     border-radius: 20px;
-    background-color: white;
+    background-color: rgb(249, 249, 249);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.37);
 }
 
@@ -112,14 +115,39 @@ h4 {
     font-size: 1.1rem;
     margin: 0;
 }
+.title-project{
+    display: flex;
+    width: 100%;
+    cursor: pointer;
+    justify-content: space-between;
+}
+.projects-container ul{
+    width: 100%;
+}
+.projects-container{
+    transition: 600ms;
+    max-height: 0;
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+.project-name{
+    flex: 1;
+    cursor: pointer;
+}
+.projects-container ul{
+    padding: 5px;
+    padding-inline-start: 20px;
+}
+.project-counter{
+    color: gray;
+}
 
 li {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    
-}
 
+}
 span {
     color: gray;
     display: flex;
@@ -151,8 +179,10 @@ span {
 }
 
 .projects>li {
+    
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
 }
 
 .projects svg:hover {
@@ -289,6 +319,7 @@ input[type='datetime-local']:hover{
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center;
 }
 
 .projectsForm li, .tasks-main-container li {
@@ -387,10 +418,49 @@ input[type='datetime-local']:hover{
 
 .todos-container {
     padding: 20px;
-    
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 .todos-container li {
-    background-color: rgb(221, 221, 221);
+    background-color: white;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.123);
+    gap: 10px;
+    align-items: center;
+}
+label span {
+    transition: 300ms;
+}
+.radio-buttons:checked + label span {
+    transform: rotateZ(180deg);
+    filter: drop-shadow(0px 0px 20px);
+}
+.radio-buttons:checked ~ .projects-container{
+    max-height: 100px;
+} 
+.projects li{
+    padding-left: 10px;
+}
+.High{
+    color: #ce3d3d;
+    background-color: #ce3d3d1a;
+    width: fit-content;
+    padding: 3px 6px;
+    border-radius: 5px;
+}
+.Low {
+    color: #5891ff;
+    background-color: #5890ff1a;
+    width: fit-content;
+    padding: 3px 6px;
+    border-radius: 5px;
+}
+.Medium{
+    color: #cdb636;
+    background-color: #cdb6361a;
+    width: fit-content;
+    padding: 3px 6px;
+    border-radius: 5px;
 }
