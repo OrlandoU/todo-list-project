@@ -4,7 +4,7 @@
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
     <script src="bundle.js" defer></script>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
@@ -39,7 +39,8 @@
                         </select>
                     </li>
                     <li>
-                        <button>Add Projects</button>
+                        <button class="btn"> +
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -49,7 +50,7 @@
     <div class="main-container">
         <div class="sidebar">
             <ul class="sidebar-items">
-                <li>
+                <li class='all-button'>
                     <span>
                         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                             <path fill="currentColor"
@@ -57,6 +58,7 @@
                         </svg>
                     </span>
                     <h4>All</h4>
+                    <div class="all-counter"></div>
                 </li>
                 <li>
                     <span>
@@ -66,16 +68,19 @@
                         </svg>
                     </span>
                     <h4>Important</h4>
+                    <div class="important-counter"></div>
                 </li>
 
             </ul>
             <ul class="projects">
                 <h2>Projects</h2>
                 <li>
-                    <input type="radio" class="radio-buttons" id="Work-input" value="Work" name="selected" style='display:none'>
+                    <input type="radio" class="radio-buttons" id="Work-input" value="Work" name="selected"
+                        style='display:none'>
                     <label for="Work-input">
                         <div class="title-project">
-                            Work
+                            <div class="sidebar-name">Work</div>
+                            <span class="counter-Work"></span>
                             <span>
                                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                                     <path fill="currentColor"
@@ -84,7 +89,7 @@
                             </span>
                         </div>
                     </label>
-                    
+
 
                     <div class="projects-container">
                         <ul class="projects-list-Work cleanup">
@@ -93,10 +98,12 @@
                     </div>
                 </li>
                 <li>
-                    <input type="radio" class="radio-buttons" id="Personal-input" value="Personal" name="selected" style='display:none'>
+                    <input type="radio" class="radio-buttons" id="Personal-input" value="Personal" name="selected"
+                        style='display:none'>
                     <label for="Personal-input">
                         <div class="title-project">
-                            Personal
+                            <div class="sidebar-name">Personal</div>
+                            <span class="counter-Personal"></span>
                             <span>
                                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                                     <path fill="currentColor"
@@ -113,10 +120,12 @@
                     </div>
                 </li>
                 <li>
-                    <input type="radio" class="radio-buttons" id="Home-input" value="Home" name="selected" style='display:none'>
+                    <input type="radio" class="radio-buttons" id="Home-input" value="Home" name="selected"
+                        style='display:none'>
                     <label for="Home-input">
                         <div class="title-project">
-                            Home
+                            <div class="sidebar-name">Home</div>
+                            <span class="counter-Home"></span>
                             <span>
                                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                                     <path fill="currentColor"
@@ -128,7 +137,7 @@
 
                     <div class="projects-container">
                         <ul class="projects-list-Home cleanup">
-                    
+
                         </ul>
                     </div>
                 </li>
@@ -154,23 +163,14 @@
                 </section>
             </header>
             <main>
-                
-                <div class="main-header">
 
-                </div>
+
+                <div class="main-header"> </div>
                 <div>
                     <ul class="todos-container clean">
 
                     </ul>
                 </div>
-
-                <label class="cssbuttons-io-button" for="todos-submit"> Done
-                    <div class="icon">
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-                        </svg>
-                    </div>
-                </label>
 
                 <form id="todos-form" action="" class="tasks-main-container">
                     <div class="tasks-form-container">
@@ -195,16 +195,31 @@
                                 <input id="date-form" type="datetime-local" name='dueDate' required class="input-decor">
                                 <span class="input-border"></span>
                             </li>
-                            <li>
+                            <li class="notes">
                                 <label for="description-form">Notes</label>
                                 <textarea name="description" id="description-form" cols="22" rows="10"></textarea>
                                 <span class="input-border"></span>
                             </li>
                             <input type="submit" id="todos-submit" style="display:none">
+                            <div class="button-container">
+                                <label class="cssbuttons-io-button" for="todos-submit"> 
+                                    <span class="button-text">Done</span> 
+                                    <div class="icon">
+                                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                            <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                        </svg>
+                                    </div>
+                                </label>
+                            </div>
                         </ul>
+
+
                     </div>
                 </form>
             </main>
+            <div class="placeholder-img">
+                <img src="https://cdn.pixabay.com/photo/2018/06/24/12/36/lowpoly-3494476_1280.png" alt="3d blender art">
+            </div>
         </div>
     </div>
 </body>

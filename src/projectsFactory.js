@@ -9,6 +9,7 @@ export default (id,name, category) => {
         return {_id,_name, _date, _category}
     }
 
+
     const update = (newName, newCategory)=>{
         _name = newName
         _category = newCategory
