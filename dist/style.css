@@ -27,9 +27,7 @@ body {
     flex-direction: column;
     gap: 10px;
 }
-.hide {
-    display: none;
-}
+
 
 .modal {
     z-index: 10;
@@ -44,7 +42,7 @@ body {
 .main-header {
     font-size: 2rem;
     font-weight: 900;
-    padding: 20px 20px 0px 30px;
+    
 }
 
 .sidebar {
@@ -91,6 +89,7 @@ header {
 }
 
 main {
+    overflow: auto;
     z-index: 5;
     display: none;
     position: relative;
@@ -706,4 +705,52 @@ label span {
 .btn:hover::after {
     transform: scaleX(1.4) scaleY(1.6);
     opacity: 0;
+}
+.favorite{
+    box-shadow: inset 0px 0px 10px 10px blue;
+    filter: invert(1) hue-rotate(250deg);
+}
+.header-container{
+    display: flex;
+    align-items: center;
+    padding: 20px 20px 0px 30px;
+    justify-content: space-between;
+}
+.todo-options-container{
+    display: flex;
+    gap: 5px;
+}
+.delete-project, .delete-button, .edit-button, .favorite-button{
+    transition: 600ms ease, transform 100ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 20%;
+}
+.delete-button, .edit-button, .favorite-button{
+    padding: 3px;
+}
+.delete-project:hover, .delete-button:hover, .edit-button:hover, .favorite-button:hover{
+    cursor: pointer;
+    filter: drop-shadow(0px 0px 10px red);
+    background-color: red;
+    border-radius: 50%;
+    color: white;
+}
+.edit-button:hover{
+    filter: invert(1) drop-shadow(0px 0px 10px rgb(0, 225, 255));
+}
+.favorite-button:hover{
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(250deg) drop-shadow(0px 0px 10px #561eff);
+}
+.delete-button:hover{
+    transition: 100ms;
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(-40deg) drop-shadow(0px 0px 10px rgb(255, 221, 0));
+}
+.delete-project:active, .delete-button:active, .edit-button:active, .favorite-button:active{
+    transform: translateY(-2px);
+}
+.hide {
+    display: none;
 }

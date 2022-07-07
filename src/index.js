@@ -1,4 +1,4 @@
-import { projectModule, domModule } from "./projects";
+import { projectModule, domModule } from "./modules";
 let index;
 const projectForm = document.querySelector('#projectForm')
 projectForm.addEventListener('submit', addProject)
@@ -9,12 +9,40 @@ todoForm.addEventListener('submit', addTodo)
 const allButton = document.querySelector('.all-button')
 allButton.addEventListener('click', showAllTodos)
 let currentSelected;
+let pageStateFav;
+
+const importantButton = document.querySelector('.important-button')
+importantButton.addEventListener('click', showImportant)
+
+const deleteWholeProject = document.querySelector('.delete-project')
+deleteWholeProject.addEventListener('click', deleteCurrentProject)
 
 projectModule.retrieveData()
 showAllTodos()
 renewListeners()
 
+function deleteCurrentProject(){
+    projectModule.removeProject(currentSelected)
+    document.querySelector('main').classList.add('hide')
+    showAllTodos()
+    renewListeners()
+}
+function showImportant() {
+    let mainHeader = document.querySelector('.main-header')
+    mainHeader.textContent = "Important To-Dos"
+    pageStateFav = true;
+
+    domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
+    domModule.updateTodos(projectModule.read().todosDb.filter(crr => {
+        return crr.read()._isFavorite == true
+    }), projectModule.read().projectsDb, true)
+    renewListeners()
+    todoForm.classList.remove('show')
+    todoForm.classList.add('hide')
+}
+
 function showAllTodos(event) {
+    pageStateFav = false;
     if (event) {
         document.querySelector('main').classList.add('show')
     }
@@ -24,11 +52,13 @@ function showAllTodos(event) {
     domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
     domModule.updateTodos(projectModule.read().todosDb, projectModule.read().projectsDb, true)
     renewListeners()
+    document.querySelector('.delete-project').classList.add('hide')
     todoForm.classList.remove('show')
     todoForm.classList.add('hide')
 }
 
 function addProject(event) {
+    pageStateFav = false;
     event.preventDefault()
     let data = Object.fromEntries(new FormData(event.target).entries())
     document.querySelector('.closeModal').click()
@@ -42,11 +72,13 @@ function addProject(event) {
 
     document.querySelector(`[data-id='${currentSelected}']`).click()
     document.querySelector('main').classList.add('show')
+    document.querySelector('.delete-project').classList.remove('hide')
 
 
     event.target.reset()
 }
 function addTodo(event) {
+    pageStateFav = false;
     event.preventDefault()
     let data = Object.fromEntries(new FormData(event.target).entries())
     projectModule.createTodo(currentSelected, data.title, data.description, data.dueDate, data.priority)
@@ -54,13 +86,18 @@ function addTodo(event) {
     domModule.updateTodos(projectModule.read().todosDb, projectModule.read().projectsDb)
     domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
     renewListeners()
+    document.querySelector('.delete-project').classList.remove('hide')
+
 
     event.target.reset()
 }
 
 function showSelected(event) {
-    currentSelected = event.currentTarget.dataset.id
+    document.querySelector('main').classList.remove('hide')
     document.querySelector('main').classList.add('show')
+    document.querySelector('.delete-project').classList.remove('hide')
+    pageStateFav = false;
+    currentSelected = event.currentTarget.dataset.id
     domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
     domModule.updateTodos(projectModule.read().todosDb.filter(todo => {
         return todo.read()._projectId == currentSelected
@@ -68,6 +105,7 @@ function showSelected(event) {
     let mainHeader = document.querySelector('.main-header')
     mainHeader.textContent = projectModule.read().projectsDb[currentSelected].read()._name
     renewListeners()
+
     todoForm.classList.add('show')
     todoForm.classList.remove('hide')
 }
@@ -88,14 +126,56 @@ function renewListeners() {
     editB.forEach(button => {
         button.addEventListener('click', editTodo)
     })
+    let importantB = document.querySelectorAll('.favorite-button')
+    importantB.forEach(button => {
+        button.addEventListener('click', toggleFavorite)
+    })
+}
+function toggleFavorite(event) {
+    let index = event.currentTarget.parentElement.parentElement.dataset
+    let mainHeader = document.querySelector('.main-header')
+    let state = mainHeader.textContent == 'Full to-do list' ? true : false
+    let altState = mainHeader.textContent == 'Important To-Dos' ? true : false
+    projectModule.updateTodoState(index.id, 'favorite')
+
+    if (altState) {
+        domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
+        domModule.updateTodos(projectModule.read().todosDb.filter(crr => {
+            return crr.read()._isFavorite == true
+        }), projectModule.read().projectsDb, state)
+        todoForm.classList.remove('show')
+        todoForm.classList.add('hide')
+    }
+    else if(state){
+        showAllTodos() 
+        return
+    }
+    else {
+        console.log('s')
+        domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
+        domModule.updateTodos(projectModule.read().todosDb.filter(todo => {
+            return todo.read()._projectId = index.projectId
+        }), projectModule.read().projectsDb, state)
+        todoForm.classList.add('show')
+        todoForm.classList.remove('hide')
+    }
+
+
+    renewListeners()
 }
 function deleteTodo(event) {
     let index = event.currentTarget.parentElement.parentElement.dataset
+    if('Full to-do list' || 'Important To-Dos'){
+        let state = true
+    }
+    else{
+        let state = false;
+    }
     projectModule.removeTodo(index.id)
     domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
     domModule.updateTodos(projectModule.read().todosDb.filter(todo => {
         return todo.read()._projectId = index.projectId
-    }))
+    }), projectModule.read().projectsDb, state )
     renewListeners()
 }
 function editTodo(event) {
@@ -125,6 +205,6 @@ function manageEdit(event) {
 }
 function toggleState(event) {
     let index = event.currentTarget.parentElement.dataset.id
-    projectModule.updateTodoState(index)
+    projectModule.updateTodoState(index, 'state')
 }
 
