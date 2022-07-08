@@ -165,11 +165,12 @@ function toggleFavorite(event) {
 }
 function deleteTodo(event) {
     let index = event.currentTarget.parentElement.parentElement.dataset
+    let state;
     if('Full to-do list' || 'Important To-Dos'){
-        let state = true
+        state = true
     }
     else{
-        let state = false;
+        state = false;
     }
     projectModule.removeTodo(index.id)
     domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
