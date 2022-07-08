@@ -1,6 +1,6 @@
 import todosF from "./todosFactory";
 import projectsF from "./projectsFactory"
-import {format} from "date-fns";
+import { format } from "date-fns";
 //Manager module for all projects
 export const projectModule = (function () {
 
@@ -16,7 +16,7 @@ export const projectModule = (function () {
         let projectsD = storedValues.projectsD || []
         let todosD = storedValues.todosD || []
 
-        if (projectsD.length !=0) {
+        if (projectsD.length != 0) {
             for (let i = projectsD.length; i > 0; i--) {
                 if (projectsD[i]) {
                     _projectId = projectsD.at(i)._id + 1
@@ -24,7 +24,7 @@ export const projectModule = (function () {
                 }
             }
             projectsD.forEach(project => {
-                if(project){
+                if (project) {
                     projectsDb[project._id] = projectsF(project._id, project._name, project._category)
                 }
             })
@@ -76,8 +76,8 @@ export const projectModule = (function () {
 
     const removeProject = (id) => {
         delete projectsDb[id]
-        todosDb.forEach(crr=>{
-            if(crr.read()._projectId == id){
+        todosDb.forEach(crr => {
+            if (crr.read()._projectId == id) {
                 delete todosDb[crr.read()._id]
             }
         })
@@ -105,7 +105,7 @@ export const projectModule = (function () {
             todosDb[index].toggleState()
             _saveOnStorage()
         }
-        else{
+        else {
             todosDb[index].toggleFavorite()
             _saveOnStorage()
         }
@@ -203,10 +203,10 @@ export const domModule = (function () {
         }
 
         let importantCounter = document.querySelector('.important-counter')
-        importantCounter.textContent = todosDb.filter(crr=>{
+        importantCounter.textContent = todosDb.filter(crr => {
             return crr.read()._isFavorite == true
         }).length
-        if(importantCounter.textContent == 0){
+        if (importantCounter.textContent == 0) {
             importantCounter.textContent = ''
         }
     }
@@ -235,7 +235,23 @@ export const domModule = (function () {
             header.textContent = currentTodo._title
 
             let date = document.createElement('h4')
-            date.textContent = currentTodo._dueDate
+            date.textContent = format(new Date(currentTodo._dueDate), 'PPPPpp')
+            date.classList.add('date-container')
+
+            let detailsContainer = document.createElement('div')
+            detailsContainer.classList.add('notes-container')
+            let notesTitle = document.createElement('div')
+            notesTitle.classList.add('note-title')
+            notesTitle.textContent = 'Notes'
+
+            let notesContainer = document.createElement('div')
+            notesContainer.textContent = currentTodo._description
+            notesContainer.classList.add('notes-text-container')
+
+            
+            detailsContainer.appendChild(notesTitle)
+            detailsContainer.appendChild(notesContainer)
+
 
             let todoOptions = document.createElement('div')
             todoOptions.classList.add('todo-options-container')
@@ -286,6 +302,7 @@ export const domModule = (function () {
             todoOptions.appendChild(deleteButton)
             todoOptions.appendChild(favoriteButton)
             listElement.appendChild(subContainer)
+            listElement.appendChild(detailsContainer)
             listElement.appendChild(todoOptions)
             updateCounters(projectsDb, todosDb)
 

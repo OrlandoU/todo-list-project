@@ -527,15 +527,19 @@ textarea {
 
 .todos-container li {
     background-color: white;
-    padding: 10px;
+    padding: 10px 10px 10px 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.123);
-    gap: 10px;
+    gap: 20px;
     align-items: center;
 }
 
 .sub-container {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-right: 1px solid gray;
 }
 
 label span {
@@ -753,4 +757,24 @@ label span {
 }
 .hide {
     display: none;
+}
+.date-container{
+    color: grey;
+    padding-bottom: 2px;
+    font-size: 0.9rem;
+}
+.toggleState:hover{
+    cursor: pointer;
+}
+.notes-container{
+    width: 250px;
+    overflow: auto;
+    height: 100%;
+}
+.note-title{
+    color: rgb(91, 91, 91);
+    font-size: 0.7rem;
+}
+.notes-text-container{
+    font-size: 0.9rem;
 }
