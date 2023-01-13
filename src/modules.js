@@ -1,6 +1,11 @@
 import todosF from "./todosFactory";
 import projectsF from "./projectsFactory"
 import { format } from "date-fns";
+import { getAuth } from "firebase/auth";
+
+import { setDoc, getFirestore, doc, getDoc } from "firebase/firestore";
+
+
 //Manager module for all projects
 export const projectModule = (function () {
 
@@ -10,13 +15,34 @@ export const projectModule = (function () {
     let projectsDb = [];
     let todosDb = [];
 
-    const retrieveData = () => {
-        let storedValues = JSON.parse(localStorage.getItem('db'))
-        if (!storedValues) return
-        let projectsD = storedValues.projectsD || []
-        let todosD = storedValues.todosD || []
+    const retrieveData = async () => {
+        let projectsD
+        let todosD
+        if (getAuth().currentUser) {
+            console.log('still here')
+            try {
+                let db = await getDoc(doc(getFirestore(), 'db', getAuth().currentUser.uid))
+                if(!db.data()){
+                    projectsD = []
+                    todosD = []
+                    
+                }else{
+                    projectsD = JSON.parse(db.data().projects)
+                    todosD = JSON.parse(db.data().todos)
+                }
+                
+            } catch (error) {
+                console.error('Error retrieving db', error)
+            }
+        } else {
+            let storedValues = JSON.parse(localStorage.getItem('db'))
+            if (!storedValues) return
+            projectsD = storedValues.projectsD || []
+            todosD = storedValues.todosD || []
+        }
+        
 
-        if (projectsD.length != 0) {
+        if (projectsD.length) {
             for (let i = projectsD.length; i > 0; i--) {
                 if (projectsD[i]) {
                     _projectId = projectsD.at(i)._id + 1
@@ -28,9 +54,11 @@ export const projectModule = (function () {
                     projectsDb[project._id] = projectsF(project._id, project._name, project._category)
                 }
             })
+        }else{
+            projectsDb = []
         }
 
-        if (todosD.length != 0) {
+        if (todosD.length) {
             for (let i = todosD.length; i > 0; i--) {
                 if (todosD[i]) {
                     _todoId = todosD.at(i)._id + 1
@@ -42,14 +70,27 @@ export const projectModule = (function () {
                     todosDb[todo._id] = todosF(todo._id, todo._projectId, todo._title, todo._description, todo._dueDate, todo._priority, todo._state, todo._isFavorite)
                 }
             })
+        }else{
+            todosDb = []
         }
 
 
     }
-    const _saveOnStorage = () => {
-        let projectsD = projectsDb.map(project => project.read())
-        let todosD = todosDb.map(todo => todo.read())
-        localStorage.setItem('db', JSON.stringify({ projectsD, todosD }))
+    const _saveOnStorage = async () => {
+        if (getAuth().currentUser) {
+            try {
+                await setDoc(doc(getFirestore(), 'db', getAuth().currentUser.uid), {
+                    projects: JSON.stringify(projectsDb.map(project => project.read())),
+                    todos: JSON.stringify(todosDb.map(todo => todo.read()))
+                })
+            } catch (e) {
+                console.error("Error saving changes: ", e);
+            }
+        } else {
+            let projectsD = projectsDb.map(project => project.read())
+            let todosD = todosDb.map(todo => todo.read())
+            localStorage.setItem('db', JSON.stringify({ projectsD, todosD }))
+        }
     }
 
     const getProjectId = () => {
@@ -225,7 +266,6 @@ export const domModule = (function () {
             let checkBox = document.createElement('input')
             checkBox.classList.add('toggleState')
             checkBox.type = 'checkbox'
-            console.log(currentTodo._state)
             checkBox.checked = currentTodo._state
 
             let subContainer = document.createElement('div')
@@ -248,7 +288,7 @@ export const domModule = (function () {
             notesContainer.textContent = currentTodo._description
             notesContainer.classList.add('notes-text-container')
 
-            
+
             detailsContainer.appendChild(notesTitle)
             detailsContainer.appendChild(notesContainer)
 

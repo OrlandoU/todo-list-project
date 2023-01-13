@@ -1,4 +1,157 @@
 import { projectModule, domModule } from "./modules";
+import { initializeApp } from 'firebase/app'
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    limit,
+    onSnapshot,
+    setDoc,
+    updateDoc,
+    doc,
+    serverTimestamp,
+} from 'firebase/firestore';
+
+import {
+    getAuth,
+    browserSessionPersistence,
+    setPersistence,
+    GoogleAuthProvider,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
+    createUserWithEmailAndPassword
+} from 'firebase/auth';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA-puARq1N5lRuBkE3soSjijWBdDuN4Jc0",
+    authDomain: "todo-list-23575.firebaseapp.com",
+    projectId: "todo-list-23575",
+    storageBucket: "todo-list-23575.appspot.com",
+    messagingSenderId: "940592232223",
+    appId: "1:940592232223:web:25e82915781c847cf7222a"
+};
+const app = initializeApp(firebaseConfig)
+
+
+async function createUser(e) {
+    let errorHeader = document.getElementById('login-errors')
+    e.preventDefault()
+    let data = Object.fromEntries(new FormData(e.target).entries())
+
+    try {
+        if(data.password !== data.passwordRep) throw Error('Mismatching password')
+        await createUserWithEmailAndPassword(getAuth(), data.email, data.password)
+        if (isSignedIn()) {
+            loginForm.classList.remove('login-show')
+        }
+        setUser()
+    } catch (error) {
+        setTimeout(() => { errorHeader.textContent = '' }, 3500)
+        errorHeader.textContent = error.message
+        console.error('Error on login up', error)
+    }
+}
+
+
+async function signInWithGoogle() {
+    let provider = new GoogleAuthProvider()
+    await signInWithPopup(getAuth(), provider)
+    if (isSignedIn()) {
+        loginForm.classList.remove('login-show')
+    }
+    setUser()
+}
+
+async function signOutUser() {
+    await signOut(getAuth())
+    setUser()
+}
+
+function isSignedIn() {
+    return !!getAuth().currentUser
+}
+
+
+async function loginUser(e) {
+    let errorHeader = document.getElementById('login-error')
+    e.preventDefault()
+    let data = Object.fromEntries(new FormData(e.target).entries())
+    try {
+        await signInWithEmailAndPassword(getAuth(), data.email, data.password)
+        if (isSignedIn()) {
+            loginForm.classList.remove('login-show')
+        }
+    } catch (error) {
+        setTimeout(() => { errorHeader.textContent = '' }, 3500)
+        errorHeader.textContent = error.message
+        console.error('Error on login up', error)
+    }
+    setUser()
+}
+
+
+async function setUser() {
+    await projectModule.retrieveData()
+
+    domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
+    domModule.updateTodos(projectModule.read().todosDb, projectModule.read().projectsDb)
+    renewListeners()
+    if (getAuth().currentUser) {
+        loginButtonExpand.classList.add('hide')
+        logoutButton.classList.remove('hide')
+        userName.textContent = getAuth().currentUser.displayName
+        // userPicture.src = getAuth().currentUser.photoURL || "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+    } else {
+        // userPicture.src = "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+        userName.textContent = 'Guest'
+        loginButtonExpand.classList.remove('hide')
+        logoutButton.classList.add('hide')
+    }
+
+}
+
+
+
+const userPicture = document.querySelector('.user-pic')
+const userName = document.querySelector('.user-name')
+
+
+
+
+
+const googleButton = document.querySelector('.google-button')
+googleButton.addEventListener('click', signInWithGoogle)
+
+const signupForm = document.querySelector('.signupForm')
+signupForm.addEventListener('click', () => signupForm.classList.remove('login-show'))
+signupForm.addEventListener('submit', createUser)
+
+const loginForm = document.querySelector('.loginForm')
+loginForm.addEventListener('submit', loginUser)
+loginForm.addEventListener('click', () => loginForm.classList.remove('login-show'))
+
+const logoutButton = document.querySelector('.logout-button')
+logoutButton.addEventListener('click', signOutUser)
+
+const loginButtonExpand = document.querySelector('.login-open')
+loginButtonExpand.addEventListener('click', () => {
+    loginForm.classList.add('login-show')
+})
+const modalLogin = document.querySelector('.modalLogin')
+modalLogin.addEventListener('click', (e) => e.stopPropagation())
+
+const modalLogins = document.querySelector('.modalLogins')
+modalLogins.addEventListener('click', (e) => e.stopPropagation())
+
+const signupExpand = document.querySelector('.sign-up-expand')
+signupExpand.addEventListener('click', () => {
+    loginForm.classList.remove('login-show')
+    signupForm.classList.add('login-show')
+})
+
 let index;
 const projectForm = document.querySelector('#projectForm')
 projectForm.addEventListener('submit', addProject)
@@ -17,16 +170,18 @@ importantButton.addEventListener('click', showImportant)
 const deleteWholeProject = document.querySelector('.delete-project')
 deleteWholeProject.addEventListener('click', deleteCurrentProject)
 
-projectModule.retrieveData()
+
 showAllTodos()
 renewListeners()
 
-function deleteCurrentProject(){
+
+function deleteCurrentProject() {
     projectModule.removeProject(currentSelected)
     document.querySelector('main').classList.add('hide')
     showAllTodos()
     renewListeners()
 }
+
 function showImportant() {
     let mainHeader = document.querySelector('.main-header')
     mainHeader.textContent = "Important To-Dos"
@@ -146,8 +301,8 @@ function toggleFavorite(event) {
         todoForm.classList.remove('show')
         todoForm.classList.add('hide')
     }
-    else if(state){
-        showAllTodos() 
+    else if (state) {
+        showAllTodos()
         return
     }
     else {
@@ -166,17 +321,17 @@ function toggleFavorite(event) {
 function deleteTodo(event) {
     let index = event.currentTarget.parentElement.parentElement.dataset
     let state;
-    if('Full to-do list' || 'Important To-Dos'){
+    if ('Full to-do list' || 'Important To-Dos') {
         state = true
     }
-    else{
+    else {
         state = false;
     }
     projectModule.removeTodo(index.id)
     domModule.updateProjects(projectModule.read().projectsDb, projectModule.read().todosDb)
     domModule.updateTodos(projectModule.read().todosDb.filter(todo => {
         return todo.read()._projectId = index.projectId
-    }), projectModule.read().projectsDb, state )
+    }), projectModule.read().projectsDb, state)
     renewListeners()
 }
 function editTodo(event) {
@@ -209,3 +364,18 @@ function toggleState(event) {
     projectModule.updateTodoState(index, 'state')
 }
 
+setPersistence(getAuth(), browserSessionPersistence)
+    .then(() => {
+        // Existing and future Auth states are now persisted in the current
+        // session only. Closing the window would clear any existing state even
+        // if a user forgets to sign out.
+        // ...
+        // New sign-in will be persisted with session persistence.
+        
+        setUser()
+    })
+    .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    });

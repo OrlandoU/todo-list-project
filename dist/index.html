@@ -48,7 +48,75 @@
         </form>
     </div>
     <div class="main-container">
+        <Form class="loginForm">
+            <div class="modalLogin">
+                <div class="top-login">
+                    <h1 >Login</h1>
+                    <label for="Email">
+                        <input type="email" id="Email" placeholder=" " name="email" required>
+                        <span class="text-hover">Email</span>
+                        <span class="underline"></span>
+                    </label>
+                    <label for="Password">
+                        <input type="password" id="Password" name="password" placeholder=" " required>
+                        <span class="text-hover">Password</span>
+                        <span class="underline"></span>
+                    </label>
+
+                    <div class="buttons">
+                        <button class="google-button">Login with Google<img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" ></button>
+                        <button class="login-button">Login</button>
+                    </div>
+                    <span id="login-error"></span>
+                    <h5 class="sign-up-expand">Sign Up</h5>
+                </div>
+            </div>
+        </Form>
+        <Form class="signupForm">
+            <div class="modalLogins">
+                <div class="top-login">
+                    <h1>Signup</h1>
+                    <label for="Username">
+                        <input type="text" id="Username" placeholder=" " name="username" required>
+                        <span class="text-hover">Username</span>
+                        <span class="underline"></span>
+                    </label>
+                    <label for="Email">
+                        <input type="email" id="EmailS" placeholder=" " name="email" required>
+                        <span class="text-hover">Email</span>
+                        <span class="underline"></span>
+                    </label>
+                    <label for="PasswordS">
+                        <input type="password" id="PasswordS" name="password" placeholder=" " required>
+                        <span class="text-hover">Password</span>
+                        <span class="underline"></span>
+                    </label>
+                    <label for="PasswordRep">
+                        <input type="password" id="PasswordRep" name="passwordRep" placeholder=" " required>
+                        <span class="text-hover">Password Confirmation</span>
+                        <span class="underline"></span>
+                    </label>
+        
+                    <div class="buttons">
+                        <button class="google-buttons">Signup with Google<img
+                                src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"></button>
+                        <button class="login-button">Signup</button>
+                    </div>
+                    <span id="login-errors"></span>
+                </div>
+            </div>
+        </Form>
+        
         <div class="sidebar">
+            <ul class="user-section">
+                <div class="user-info">
+                    <img src="https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+                        class="user-pic" alt="User Profile Pic">
+                    <span class="user-name">Guest</span>
+                </div>
+                <button class="login-open">Login</button>
+                <button class="logout-button hide">Logout</button>
+            </ul>
             <ul class="sidebar-items">
                 <li class='all-button'>
                     <span>
@@ -152,10 +220,11 @@
                 <section class="header-left-side">
                     To-Do List
                 </section>
-                
+
+
             </header>
             <main>
-                 <div class="header-container">
+                <div class="header-container">
                     <div class="main-header"> </div>
                     <div class="delete-project"><svg style="width:24px;height:24px" viewBox="0 0 24 24">
                             <path fill="currentColor"

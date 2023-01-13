@@ -10,6 +10,208 @@
     margin: 0;
 }
 
+.loginForm, .signupForm {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    z-index: 100;
+    transition: 400ms;
+    backdrop-filter: blur(8px);
+    background-color: #00000017;
+}
+.signupForm{
+    z-index: 150;
+}
+.modalLogin, .modalLogins {
+    background-color: white;
+    padding: 50px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.229);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+}
+.login-show{
+    display: flex;
+    opacity: 1;
+}
+.user-section{
+    margin: 10px;
+    background-color: #561eff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px !important;
+}
+
+.user-section > button{
+    background-color: transparent;
+    height: 0px;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0px;
+    color: white;
+    font-weight: 600;
+    
+    border-radius: 15px;
+    transition: 400ms;
+}
+.user-section:hover > button:not(.hide){
+    height: 30px;
+    opacity: 1;
+    padding: 5px 30px;
+    border: 2px solid white;
+}
+.user-section > button:hover{
+    background-color: white;
+    color: #561eff;
+    transform: translateY(-4px);
+}
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 900;
+    gap: 5px;
+}
+
+
+.user-name {
+    color: #e7e7e7;
+}
+
+.user-pic {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+}
+
+#login-error, #login-errors {
+    color: orangered;
+    font-weight: 600;
+}
+
+.top-login {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.login-button {
+    background-color: #561eff;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 50px;
+    border: 1px solid #561eff;
+    font-weight: 600;
+    transition: 300ms;
+    font-size: 1rem;
+}
+
+.login-button:hover {
+    background-color: white;
+    color: #561eff;
+}
+.buttons{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 100%;
+}
+.buttons > * {
+    flex: 1;
+    border-radius: 10px;
+    transition: 300ms;
+}
+
+.buttons > *:hover{
+    transform: translateY(-5px);
+}
+.google-button, .google-buttons{
+    border: none;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    display: flex;
+    height: 41px;
+    width: 100%;
+    gap: 5px;
+    font-weight: 900;
+    color: white;
+    background-color: rgb(0, 119, 255);
+}
+.google-button > img, .google-buttons > img{
+    height: 30px;
+    filter: drop-shadow(0px 0px 2px rgb(0, 0, 0));
+}
+
+.loginForm label, .signupForm label {
+    position: relative;
+    width: fit-content;
+    display: block;
+}
+
+.loginForm label input , .signupForm label input{
+    width: 350px;
+    height: 50px;
+    padding: 10px 10px;
+    font-size: 1.2rem;
+    outline: none;
+    border: none;
+    background-color: rgba(220, 220, 220, 0.308);
+}
+
+.text-hover {
+    z-index: 1;
+    position: absolute;
+    bottom: 20%;
+    left: 10px;
+    font-size: 1.2rem;
+    transition: 300ms;
+}
+
+.loginForm input:not(:placeholder-shown)~.text-hover, .signupForm input:not(:placeholder-shown)~.text-hover{
+    left: 10px;
+    bottom: 110%;
+    font-size: 1rem;
+    color: #561eff;
+}
+
+.loginForm input:focus~.text-hover , .signupForm input:focus~.text-hover{
+    left: 10px;
+    bottom: 110%;
+    color: #561eff;
+    font-size: 1rem;
+}
+
+.loginForm input:focus~.underline, .signupForm  input:focus~.underline{
+    transform: scaleX(1);
+}
+
+.underline {
+    transition: 400ms;
+    transform: scaleX(0);
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    background-color: #561eff;
+    bottom: 0;
+    border-radius: 50px;
+}
+
 html {
     background-color: #581eff;
     background-image: linear-gradient(180deg, #581eff 0%, #ffffff 43%, #ffffff 78%);
@@ -19,9 +221,11 @@ html {
 body {
     height: 100vh;
 }
-.todo-options-container > *:hover{
+
+.todo-options-container>*:hover {
     cursor: pointer;
 }
+
 .cleanup {
     display: flex;
     flex-direction: column;
@@ -42,7 +246,7 @@ body {
 .main-header {
     font-size: 2rem;
     font-weight: 900;
-    
+
 }
 
 .sidebar {
@@ -74,6 +278,7 @@ header {
     color: rgb(249, 249, 249);
     height: 100px;
     display: flex;
+    gap: 8px;
     align-items: center;
     padding: 20px;
     justify-content: space-between;
@@ -333,9 +538,11 @@ textarea:hover {
 input[type='datetime-local']:hover {
     cursor: pointer;
 }
-#title-form{
+
+#title-form {
     width: 220px;
 }
+
 .input-decor,
 textarea {
     background-color: rgba(128, 128, 128, 0.068);
@@ -396,10 +603,11 @@ textarea {
 .projectsForm li {
     position: relative;
     flex-direction: column;
-    
+
     gap: 5px;
 }
-.projectsForm li:nth-child(1){
+
+.projectsForm li:nth-child(1) {
     width: 300px;
 }
 
@@ -429,7 +637,7 @@ textarea {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    width: 200px;
+    width: 220px;
     outline: none;
     color: rgb(54, 54, 54);
     text-align: center;
@@ -451,7 +659,8 @@ textarea {
 .cssbuttons-io-button:hover {
     cursor: pointer;
 }
-.button-text{
+
+.button-text {
     color: white;
 }
 
@@ -509,11 +718,13 @@ textarea {
 .cssbuttons-io-button:active .icon {
     transform: scale(0.95);
 }
-.tasks-form-container{
+
+.tasks-form-container {
     position: fixed;
     bottom: 40px;
     left: 40%;
 }
+
 .tasks-main-container ul {
     gap: 20px;
 }
@@ -710,21 +921,28 @@ label span {
     transform: scaleX(1.4) scaleY(1.6);
     opacity: 0;
 }
-.favorite{
+
+.favorite {
     box-shadow: inset 0px 0px 10px 10px blue;
     filter: invert(1) hue-rotate(250deg);
 }
-.header-container{
+
+.header-container {
     display: flex;
     align-items: center;
     padding: 20px 20px 0px 30px;
     justify-content: space-between;
 }
-.todo-options-container{
+
+.todo-options-container {
     display: flex;
     gap: 5px;
 }
-.delete-project, .delete-button, .edit-button, .favorite-button{
+
+.delete-project,
+.delete-button,
+.edit-button,
+.favorite-button {
     transition: 600ms ease, transform 100ms;
     display: flex;
     justify-content: center;
@@ -732,49 +950,69 @@ label span {
     padding: 5px;
     border-radius: 20%;
 }
-.delete-button, .edit-button, .favorite-button{
+
+.delete-button,
+.edit-button,
+.favorite-button {
     padding: 3px;
 }
-.delete-project:hover, .delete-button:hover, .edit-button:hover, .favorite-button:hover{
+
+.delete-project:hover,
+.delete-button:hover,
+.edit-button:hover,
+.favorite-button:hover {
     cursor: pointer;
     filter: drop-shadow(0px 0px 10px red);
     background-color: red;
     border-radius: 50%;
     color: white;
 }
-.edit-button:hover{
+
+.edit-button:hover {
     filter: invert(1) drop-shadow(0px 0px 10px rgb(0, 225, 255));
 }
-.favorite-button:hover{
+
+.favorite-button:hover {
     filter: invert(1) sepia(1) saturate(5) hue-rotate(250deg) drop-shadow(0px 0px 10px #561eff);
 }
-.delete-button:hover{
+
+.delete-button:hover {
     transition: 100ms;
     filter: invert(1) sepia(1) saturate(5) hue-rotate(-40deg) drop-shadow(0px 0px 10px rgb(255, 221, 0));
 }
-.delete-project:active, .delete-button:active, .edit-button:active, .favorite-button:active{
+
+.delete-project:active,
+.delete-button:active,
+.edit-button:active,
+.favorite-button:active {
     transform: translateY(-2px);
 }
+
 .hide {
     display: none;
 }
-.date-container{
+
+.date-container {
     color: grey;
     padding-bottom: 2px;
     font-size: 0.9rem;
 }
-.toggleState:hover{
+
+.toggleState:hover {
     cursor: pointer;
 }
-.notes-container{
+
+.notes-container {
     width: 250px;
     overflow: auto;
     height: 100%;
 }
-.note-title{
+
+.note-title {
     color: rgb(91, 91, 91);
     font-size: 0.7rem;
 }
-.notes-text-container{
+
+.notes-text-container {
     font-size: 0.9rem;
 }
