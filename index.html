@@ -51,7 +51,7 @@
         <Form class="loginForm">
             <div class="modalLogin">
                 <div class="top-login">
-                    <h1 >Login</h1>
+                    <h1>Login</h1>
                     <label for="Email">
                         <input type="email" id="Email" placeholder=" " name="email" required>
                         <span class="text-hover">Email</span>
@@ -64,11 +64,15 @@
                     </label>
 
                     <div class="buttons">
-                        <button class="google-button">Login with Google<img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" ></button>
                         <button class="login-button">Login</button>
                     </div>
                     <span id="login-error"></span>
-                    <h5 class="sign-up-expand">Sign Up</h5>
+                    <div class="bottom-login">
+                        <h5>Or login with</h5>
+                        <button type="button" class="google-button"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">Google</button>
+                    </div>
+
+                    <h5 class="sign-up-expand">Not a member? <a href="#" rel="noopener noreferrer">Sign Up</a></h5>
                 </div>
             </div>
         </Form>
@@ -96,17 +100,19 @@
                         <span class="text-hover">Password Confirmation</span>
                         <span class="underline"></span>
                     </label>
-        
+                    <span id="login-errors"></span>
                     <div class="buttons">
-                        <button class="google-buttons">Signup with Google<img
-                                src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"></button>
                         <button class="login-button">Signup</button>
                     </div>
-                    <span id="login-errors"></span>
+                    
+                </div>
+                <div class="bottom-login">
+                    <h5>Or login with</h5>
+                    <button type="button" class="google-buttons"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">Google</button>
                 </div>
             </div>
         </Form>
-        
+
         <div class="sidebar">
             <ul class="user-section">
                 <div class="user-info">

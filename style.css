@@ -133,12 +133,22 @@
 }
 .buttons > * {
     flex: 1;
-    border-radius: 10px;
+    border-radius: 4px;
     transition: 300ms;
 }
-
+.top-login span:empty {
+    display:none !important;
+}
 .buttons > *:hover{
     transform: translateY(-5px);
+}
+.bottom-login{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
 }
 .google-button, .google-buttons{
     border: none;
@@ -148,16 +158,27 @@
     display: flex;
     height: 41px;
     width: 100%;
+    font-size: 1rem;
     gap: 5px;
     font-weight: 900;
-    color: white;
-    background-color: rgb(0, 119, 255);
+    color: rgb(0, 119, 255);
+    border: 1px solid gainsboro;
+    background-color: white;
+    transition: 400ms;
+    border-radius: 4px;
 }
 .google-button > img, .google-buttons > img{
     height: 30px;
-    filter: drop-shadow(0px 0px 2px rgb(0, 0, 0));
+   
 }
-
+.google-button:hover > img, .google-buttons:hover > img{
+    filter: drop-shadow(0px 0px 2px rgb(255, 255, 255));
+}
+.google-button:hover, .google-buttons:hover{
+    background-color: rgb(0, 119, 255);
+    color: white;
+    border: 1px solid rgb(0, 119, 255);
+}
 .loginForm label, .signupForm label {
     position: relative;
     width: fit-content;
@@ -587,6 +608,7 @@ textarea {
 }
 
 .tasks-main-container li {
+    width: 100%;
     position: relative;
     flex-direction: column;
     align-items: flex-start;
