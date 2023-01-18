@@ -2,16 +2,9 @@ import { projectModule, domModule } from "./modules";
 import { initializeApp } from 'firebase/app'
 import {
     getFirestore,
-    collection,
-    addDoc,
-    query,
-    orderBy,
-    limit,
-    onSnapshot,
     setDoc,
-    updateDoc,
     doc,
-    serverTimestamp,
+    getDoc,
 } from 'firebase/firestore';
 
 import {
@@ -34,6 +27,7 @@ const firebaseConfig = {
     appId: "1:940592232223:web:25e82915781c847cf7222a"
 };
 const app = initializeApp(firebaseConfig)
+let user = {}
 
 
 async function createUser(e) {
@@ -42,10 +36,15 @@ async function createUser(e) {
     let data = Object.fromEntries(new FormData(e.target).entries())
 
     try {
-        if(data.password !== data.passwordRep) throw Error('Mismatching password')
+        if (data.password !== data.passwordRep) throw Error('Mismatching password')
         await createUserWithEmailAndPassword(getAuth(), data.email, data.password)
+        await setDoc(doc(getFirestore(), 'users', getAuth().currentUser.uid), {
+            username: data.username
+        })
+        user.username = data.username
         if (isSignedIn()) {
             loginForm.classList.remove('login-show')
+            signupForm.classList.remove('login-show')
         }
         setUser()
     } catch (error) {
@@ -81,6 +80,7 @@ async function loginUser(e) {
     let data = Object.fromEntries(new FormData(e.target).entries())
     try {
         await signInWithEmailAndPassword(getAuth(), data.email, data.password)
+        user = await getDoc(doc(getFirestore(), 'users', getAuth().currentUser.uid))
         if (isSignedIn()) {
             loginForm.classList.remove('login-show')
         }
@@ -102,7 +102,7 @@ async function setUser() {
     if (getAuth().currentUser) {
         loginButtonExpand.classList.add('hide')
         logoutButton.classList.remove('hide')
-        userName.textContent = getAuth().currentUser.displayName
+        userName.textContent = getAuth().currentUser.displayName || user.username
         // userPicture.src = getAuth().currentUser.photoURL || "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
     } else {
         // userPicture.src = "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
@@ -371,8 +371,10 @@ setPersistence(getAuth(), browserSessionPersistence)
         // if a user forgets to sign out.
         // ...
         // New sign-in will be persisted with session persistence.
-        
-        setUser()
+        getDoc(doc(getFirestore(), 'users', getAuth().currentUser.uid)).then((userData) => {
+            user = userData.data()
+            setUser()
+        })
     })
     .catch((error) => {
         // Handle Errors here.
