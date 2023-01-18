@@ -103,9 +103,9 @@ async function setUser() {
         loginButtonExpand.classList.add('hide')
         logoutButton.classList.remove('hide')
         userName.textContent = getAuth().currentUser.displayName || user.username
-        // userPicture.src = getAuth().currentUser.photoURL || "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+        userPicture.src = getAuth().currentUser.photoURL || "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
     } else {
-        // userPicture.src = "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
+        userPicture.src = "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
         userName.textContent = 'Guest'
         loginButtonExpand.classList.remove('hide')
         logoutButton.classList.add('hide')
