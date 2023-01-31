@@ -7,7 +7,7 @@ Check out the live demo at https://orlandou.github.io/todo-list-project/
 ## Getting Started
 - Prerequisites: Node.js, npm, Firebase account
 - Installation: 
-  1. `git clone https://github.com/<username>/todo-list.git` 
+  1. `git clone https://github.com/OrlandoU/todo-list.git` 
   2. `cd todo-list` 
   3. `npm install` 
   4. Replace the sample Firebase config in `src/firebase/config.js` with your own Firebase project's config.
